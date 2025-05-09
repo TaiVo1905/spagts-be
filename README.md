@@ -53,7 +53,7 @@ database/
 ```bash
 # Clone the repository
 git clone https://github.com/TaiVo1905/spagts-be.git
-cd spagtts-be
+cd spagts-be
 
 # Install dependencies
 composer install
