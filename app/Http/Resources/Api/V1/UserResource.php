@@ -21,10 +21,12 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'imageUrl' => $this->image_key ? $this->cloudinaryService->getUrl($this->image_key) : null,
+            'imageUrl' => $this->image_key ,
+            // 'imageUrl' => $this->image_key ? CloudinaryService::getUrl($this->image_key) : null,
             'email' => $this->email,
             'roles' => $this->roles,
             'created_at' => $this->created_at->toDateTimeString(),
         ];
     }
 }
+

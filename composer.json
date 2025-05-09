@@ -71,7 +71,9 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
-        }
+        },
+        "secure-http": true,
+        "cafile": "C:\\Program Files\\Ampps\\php82\\extras\\ssl\\cacert.pem"
     },
     "minimum-stability": "stable",
     "prefer-stable": true
