@@ -2,8 +2,10 @@
 
 namespace App\Http\Filters\Api\V1;
 use App\Filters\BaseFilter;
+use App\Http\Filters\BaseFilter as FiltersBaseFilter;
+use Faker\Provider\Base;
 
-class UserFilter extends BaseFilter
+class UserFilter extends FiltersBaseFilter
 {
     public function apply()
     {

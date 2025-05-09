@@ -3,7 +3,11 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "start": "concurrently \"npm run dev:spagts-fe\" \"npm run start:spagts-be\"",
+        "start:spagts-fe": "react-scripts start", 
+        "start:spagts-be": "node ../spagts-be/server.js"
+        
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",

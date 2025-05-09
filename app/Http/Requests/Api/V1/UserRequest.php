@@ -3,11 +3,15 @@
 namespace App\Http\Requests\Api\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserRequest extends FormRequest
 {
     public function authorize(): bool
     {
+        // if ($this->isMethod('delete')) {
+        //     return Auth::check() && Auth::user()->roles === 'Admin';
+        // }
         return true;
     }
 
@@ -21,7 +25,13 @@ class UserRequest extends FormRequest
                 'password' => 'required|string|min:6|confirmed',
                 'roles' => 'required|string|in:Admin,Teacher,Student',
             ];
-        } else {
+        } elseif ($this->isMethod('patch') && $this->routeIs('users.updatePassword')) {
+            return [
+                'current_password' => 'required|string',
+                'new_password' => 'required|string|min:8|confirmed',
+            ];
+        }
+        else {
             return [
                 'name' => 'sometimes|string|max:255',
                 'imageUrl' => 'sometimes|string|max:255',

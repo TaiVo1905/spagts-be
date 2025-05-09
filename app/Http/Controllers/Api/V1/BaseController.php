@@ -52,6 +52,8 @@ abstract class BaseController extends Controller
     {
         $item = $this->service->find($id);
         $this->service->delete($item);
-        return $this->successResponse(null, 'Deleted successfully', 204);
+        return $this->successResponse(new $this->resource($item), 'Deleted successfully', 204);
     }
+    
+    
 }
