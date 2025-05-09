@@ -8,6 +8,13 @@ use App\Services\Clouds\CloudinaryService;
 
 class UserResource extends JsonResource
 {
+    protected $cloudinaryService;
+
+    public function __construct($resource)
+    {
+        parent::__construct($resource);
+        $this->cloudinaryService = app(CloudinaryService::class);
+    }
 
     public function toArray(Request $request): array
     {
@@ -21,6 +28,5 @@ class UserResource extends JsonResource
             'created_at' => $this->created_at->toDateTimeString(),
         ];
     }
-
-
 }
+

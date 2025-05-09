@@ -42,12 +42,16 @@ class UserRequest extends FormRequest
         }
     }
 
-    public function prepareValidation() {
-        if($this->imageUrl) {
-            $this->merge([
-                'image_url' => $this->imageUrl,
-            ]);
-        }
+    return $rules;
+}
+
+protected function prepareForValidation()
+{
+    if ($this->hasFile('imageUrl')) {
+        $this->merge([
+            'image_url' => $this->file('imageUrl')
+        ]);
     }
+}
 
 }

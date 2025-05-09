@@ -5,27 +5,30 @@ namespace App\Http\Controllers\Api\V1;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Http\Filters\Api\V1\BaseFilter;
 use App\Services\Api\Contracts\ServiceInterface;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-abstract class BaseController extends Controller
+class BaseController extends Controller
 {
     use ApiResponse;
 
     protected $request;
     protected $service;
     protected $resource;
+    protected $filter;
 
-    public function __construct(ServiceInterface $service, string $resource, Request $request)
+    public function __construct($service, $resource, $request, $filter)
     {
         $this->request = $request;
         $this->service = $service;
         $this->resource = $resource;
+        $this->filter = $filter;
     }
 
     public function index()
     {
-        $items = $this->service->list($this->request->filter ?? null);
+        $items = $this->service->list($this->filter ?? null);
         return $this->successResponse($this->resource::collection($items));
     }
 
