@@ -16,19 +16,4 @@ class UserController extends BaseController
     {
         parent::__construct($service, UserResource::class, $request, UserFilter::class);
     }
-
-    public function updatePassword(UserRequest $request, $id)
-    {
-        $user = $this->service->find($id);
-
-        if (!Hash::check($request->current_password, $user->password)) {
-            return $this->errorResponse('Current password is incorrect', 400);
-        }
-
-        $user->password = Hash::make($request->new_password);
-        $this->service->update($user, ['password' => $user->password]);
-
-        return $this->successResponse(new $this->resource($user), 'Password updated successfully');
-    }
-
 }

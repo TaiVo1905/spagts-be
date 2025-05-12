@@ -81,6 +81,12 @@ return new class extends Migration
             $table->longText('exception');
             $table->timestamp('failed_at')->useCurrent();
         });
+
+        Schema::create('class_names', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 100)->unique();
+            $table->timestamps();
+        });
     }
 
     /**

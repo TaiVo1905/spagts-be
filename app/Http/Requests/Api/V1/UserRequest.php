@@ -3,43 +3,30 @@
 namespace App\Http\Requests\Api\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class UserRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // if ($this->isMethod('delete')) {
-        //     return Auth::check() && Auth::user()->roles === 'Admin';
-        // }
         return true;
     }
 
     public function rules(): array
-    {
-        if ($this->isMethod('post') || $this->isMethod('put')) {
-            return [
-                'name' => 'required|string|max:255',
-                'imageUrl' => 'sometimes|string|max:255',
-                'email' => 'required|email|max:255|unique:users,email',
-                'password' => 'required|string|min:6|confirmed',
-                'roles' => 'required|string|in:Admin,Teacher,Student',
-            ];
-        } elseif ($this->isMethod('patch') && $this->routeIs('users.updatePassword')) {
-            return [
-                'current_password' => 'required|string',
-                'new_password' => 'required|string|min:8|confirmed',
-            ];
-        }
-        else {
-            return [
-                'name' => 'sometimes|string|max:255',
-                'imageUrl' => 'sometimes|string|max:255',
-                'email' => 'sometimes|email|max:255|unique:users,email',
-                'password' => 'sometimes|string|min:8|confirmed',
-                'roles' => 'sometimes|string|in:Admin,Teacher,Student',
-            ];
-        }
+{
+    $rules = [
+        'name' => ['sometimes', 'string', 'max:255'],
+        'imageUrl' => ['sometimes', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+        'email' => ['sometimes', 'email', 'max:255'],
+        'current_password' => ['sometimes', 'string', 'min:8'],
+        'password' => ['sometimes', 'string', 'min:8', 'confirmed'],
+        'roles' => ['sometimes', 'string', 'in:Admin,Teacher,Student'],
+    ];
+
+    if ($this->isMethod('post') || $this->isMethod('put')) {
+        $rules['name'][0] = 'required';
+        $rules['email'][0] = 'required';
+        $rules['password'][0] = 'required';
+        $rules['roles'][0] = 'required';
     }
 
     return $rules;
