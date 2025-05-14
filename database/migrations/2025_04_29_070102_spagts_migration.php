@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //Systems
+        // Systems
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name', 50);
@@ -38,6 +38,7 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
         Schema::create('cache', function (Blueprint $table) {
             $table->string('key')->primary();
             $table->mediumText('value');
@@ -49,6 +50,7 @@ return new class extends Migration
             $table->string('owner');
             $table->integer('expiration');
         });
+
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('queue')->index();
@@ -81,6 +83,64 @@ return new class extends Migration
             $table->longText('exception');
             $table->timestamp('failed_at')->useCurrent();
         });
+
+        Schema::create('self_study_plan', function (Blueprint $table) {
+            $table->id();
+            $table->date('date');
+            $table->text('lesson_learned');
+            $table->text('self_assessment');
+            $table->integer('difficulty_level');
+            $table->boolean('is_completed');
+            $table->timestamps();
+        });
+
+        Schema::create('replies', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('comment_id')->constrained()->onDelete('cascade');
+            $table->text('reply_content');
+            $table->timestamps();
+        });
+
+        Schema::create('comments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->text('comment_content');
+            $table->timestamps();
+        });
+
+        Schema::create('semester_goals', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('student_id')->constrained()->onDelete('cascade');
+            $table->text('goal_description');
+            $table->timestamps();
+        });
+
+        Schema::create('modules', function (Blueprint $table) {
+            $table->id();
+            $table->string('module_name');
+            $table->text('module_description');
+            $table->timestamps();
+        });
+
+        Schema::create('user_class', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('class_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
+
+        Schema::create('class_names', function (Blueprint $table) {
+            $table->id();
+            $table->string('class_name');
+            $table->timestamps();
+        });
+
+        Schema::create('class_module', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('class_id')->constrained()->onDelete('cascade');
+            $table->foreignId('module_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -88,14 +148,21 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //Systems
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
-        Schema::dropIfExists('cache');
-        Schema::dropIfExists('cache_locks');
-        Schema::dropIfExists('jobs');
-        Schema::dropIfExists('job_batches');
+        Schema::dropIfExists('class_module');
+        Schema::dropIfExists('class_names');
+        Schema::dropIfExists('user_class');
+        Schema::dropIfExists('modules');
+        Schema::dropIfExists('semester_goals');
+        Schema::dropIfExists('comments');
+        Schema::dropIfExists('replies');
+        Schema::dropIfExists('self_study_plan');
         Schema::dropIfExists('failed_jobs');
+        Schema::dropIfExists('job_batches');
+        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('cache_locks');
+        Schema::dropIfExists('cache');
+        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('users');
     }
 };
