@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //Systems
+        // Systems
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name', 50);
@@ -38,6 +38,7 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
         Schema::create('cache', function (Blueprint $table) {
             $table->string('key')->primary();
             $table->mediumText('value');
@@ -49,6 +50,7 @@ return new class extends Migration
             $table->string('owner');
             $table->integer('expiration');
         });
+
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('queue')->index();
@@ -81,27 +83,160 @@ return new class extends Migration
             $table->longText('exception');
             $table->timestamp('failed_at')->useCurrent();
         });
-
-        Schema::create('class_names', function (Blueprint $table) {
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100)->unique();
+            $table->morphs('tokenable');
+            $table->string('name');
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
+        //Our schema
+        Schema::create('class_names', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 50);
+            $table->timestamps();
+        });
+
+        Schema::create('modules', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 50);
+            $table->foreignId('teacher_id')->constrained('users');
+            $table->timestamps();
+        });
+
+        Schema::create('class_module', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('class_id')->constrained('class_names');
+            $table->foreignId('module_id')->constrained('modules');
+            $table->timestamps();
+        });
+
+        Schema::create('user_class', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('class_id')->constrained('class_names');
+            $table->foreignId('user_id')->constrained('users');
+            $table->timestamps();
+        });
+
+        Schema::create('weekly_goals', function (Blueprint $table) {
+            $table->id();
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->text('goal_content');
+            $table->boolean('is_completed')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->timestamps();
+        });
+
+        Schema::create('self_study_plan', function (Blueprint $table) {
+            $table->id();
+            $table->date('date')->nullable();
+            $table->text('lesson_learned')->nullable();
+            $table->integer('time_allocation')->nullable();
+            $table->text('learning_resources')->nullable();
+            $table->text('learning_activities')->nullable();
+            $table->integer('concentration')->nullable();
+            $table->text('follow_plan_reflection')->nullable();
+            $table->text('evaluation')->nullable();
+            $table->text('reinforcing_techniques')->nullable();
+            $table->text('note')->nullable();
+            $table->foreignId('module_id')->nullable()->constrained('modules');
+            $table->foreignId('student_id')->nullable()->constrained('users');
+            $table->timestamps();
+        });
+
+        Schema::create('in_class_plan', function (Blueprint $table) {
+            $table->id();
+            $table->date('date')->nullable();
+            $table->text('lesson_learned')->nullable();
+            $table->integer('self_assessment')->nullable();
+            $table->text('difficulties')->nullable();
+            $table->text('plan_to_improve')->nullable();
+            $table->boolean('problem_solved')->nullable();
+            $table->foreignId('module_id')->nullable()->constrained('modules');
+            $table->foreignId('student_id')->nullable()->constrained('users');
+            $table->timestamps();
+        });
+
+        Schema::create('semester_goals', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('modules_id')->constrained('modules');
+            $table->foreignId('student_id')->constrained('users');
+            $table->text('student_expected_course');
+            $table->text('student_expected_teacher');
+            $table->text('student_expected_themselves');
+            $table->text('student_evaluation')->nullable();
+            $table->text('teacher_evaluation')->nullable();
+            $table->enum('semester', [1, 2, 3, 4, 5, 6]);
+            $table->timestamps();
+        });
+
+        Schema::create('comments', function (Blueprint $table) {
+            $table->id();
+            $table->string('commentable_type', 50);
+            $table->unsignedBigInteger('commentable_id');
+            $table->string('field_name', 100);
+            $table->integer('row');
+            $table->foreignId('commenter_id')->constrained('users');
+            $table->text('content');
+            $table->timestamps();
+        });
+
+        Schema::create('replies', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('comment_id')->constrained('comments');
+            $table->foreignId('replier_id')->constrained('users');
+            $table->text('content');
+            $table->timestamps();
+        });
+        Schema::create('timetables', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->dateTime('start');
+            $table->dateTime('end');
+            $table->boolean('all_day')->default(false);
+            $table->string('color')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
+
+        Schema::create('certificates', function (Blueprint $table) {
+            $table->id();
+            $table->string('image_key', 255)->nullable();
+            $table->string('module', 50);
+            $table->date('date');
+            $table->text('description');
+            $table->foreignId('student_id')->constrained('users');
+
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        //Systems
+        Schema::dropIfExists('timetables');
+        Schema::dropIfExists('replies');
+        Schema::dropIfExists('comments');
+        Schema::dropIfExists('semester_goals');
+        Schema::dropIfExists('in_class_plan');
+        Schema::dropIfExists('self_study_plan');
+        Schema::dropIfExists('weekly_goals');
+        Schema::dropIfExists('user_class');
+        Schema::dropIfExists('class_module');
+        Schema::dropIfExists('modules');
+        Schema::dropIfExists('class_names');
         Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
-        Schema::dropIfExists('cache');
-        Schema::dropIfExists('cache_locks');
-        Schema::dropIfExists('jobs');
-        Schema::dropIfExists('job_batches');
+        Schema::dropIfExists('certificates');
         Schema::dropIfExists('failed_jobs');
+        Schema::dropIfExists('job_batches');
+        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('cache_locks');
+        Schema::dropIfExists('cache');
+        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('personal_access_tokens');
+
     }
 };
