@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\CertificateController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\UserImportController;
 use App\Http\Controllers\Api\V1\ClassController;
@@ -14,4 +15,5 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
     Route::get('/users/template', [UserImportController::class, 'downloadTemplate']);
     Route::apiResource('classes', ClassController::class);
     Route::apiResource('/v1/timetables', \App\Http\Controllers\Api\V1\TimetableController::class);
+    Route::apiResource('/achievements', CertificateController::class);
 });

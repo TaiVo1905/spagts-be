@@ -203,6 +203,15 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
+
+        Schema::create('certificates', function (Blueprint $table) {
+            $table->id();
+            $table->string('image_key', 255)->nullable();
+            $table->string('module', 50);
+            $table->date('date');
+            $table->text('description');
+            $table->foreignId('student_id')->constrained('users');
+
     }
 
     public function down(): void
@@ -219,6 +228,7 @@ return new class extends Migration
         Schema::dropIfExists('modules');
         Schema::dropIfExists('class_names');
         Schema::dropIfExists('users');
+        Schema::dropIfExists('certificates');
         Schema::dropIfExists('failed_jobs');
         Schema::dropIfExists('job_batches');
         Schema::dropIfExists('jobs');
