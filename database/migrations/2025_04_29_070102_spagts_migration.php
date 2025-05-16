@@ -211,8 +211,7 @@ return new class extends Migration
             $table->date('date');
             $table->text('description');
             $table->foreignId('student_id')->constrained('users');
-            $table->timestamps();
-        });
+
     }
 
     public function down(): void
