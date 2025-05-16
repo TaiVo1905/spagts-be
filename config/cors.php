@@ -18,7 +18,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173'], // Your frontend URL
+    'allowed_origins' => ['http://localhost:5173'],
 
     'allowed_origins_patterns' => [],
 
@@ -27,6 +27,4 @@ return [
     'exposed_headers' => ['Content-Disposition'],
 
     'max_age' => 3600,
-
-    'supports_credentials' => true,
 ];

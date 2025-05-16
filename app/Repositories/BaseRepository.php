@@ -21,7 +21,7 @@ class BaseRepository implements RepositoryInterface
             $filter = new $filter($query, request());
             $filter->apply();
         }
-        return $query->paginate(request('limit', 10));
+        return $query->paginate(10);
     }
 
     public function find($id)

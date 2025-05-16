@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClassNameRequest extends FormRequest
+class ClassRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,13 +15,15 @@ class ClassNameRequest extends FormRequest
     {
         if ($this->isMethod('post')) {
             return [
-                'name' => 'required|string|max:50|unique:class_names,name',
+                'teacher_id' => 'required|numeric',
+                'name' => 'required|string|max:50|unique:classes,name',
             ];
         }
 
         if ($this->isMethod('put') || $this->isMethod('patch')) {
             return [
-                'name' => 'required|string|max:50|unique:class_names,name,' . $this->route('class_name'),
+                'teacher_id' => 'sometimes|numeric',
+                'name' => 'sometimes|string|max:50|',
             ];
         }
 

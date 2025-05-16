@@ -35,11 +35,14 @@ return [
         ],
     ],
     // config/services.php
-    'google' => [
-        'calendar_api_key' => env('GOOGLE_CALENDAR_API_KEY'),
-        'client_id' => env('GOOGLE_CLIENT_ID'),
-        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => env('GOOGLE_REDIRECT_URI'),
+    // 'google' => [
+    //     'calendar_api_key' => env('GOOGLE_CALENDAR_API_KEY'),
+    //     'client_id' => env('GOOGLE_CLIENT_ID'),
+    //     'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+    //     'redirect' => env('GOOGLE_REDIRECT_URI'),
+    // ],
+    'cloudinary' => [
+    'url' => env('CLOUDINARY_URL'),
     ],
 
 ];

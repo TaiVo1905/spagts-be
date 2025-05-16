@@ -2,14 +2,14 @@
 
 namespace App\Services\Clouds;
 
-use Cloudinary;
+use Cloudinary\Cloudinary;
 use Cloudinary\Api\Upload\UploadApi;
 
 class CloudinaryService
 {
     public function uploadImage($image)
     {
-        $uploaded = (new UploadApi())->upload($image->getRealPath());
+        $uploaded = (new UploadApi())->upload($image);
         return $uploaded;
     }
 
@@ -21,6 +21,6 @@ class CloudinaryService
 
     public function getUrl($publicId)
     {
-        return Cloudinary::cloudinary_url($publicId);
+        return (new Cloudinary)->image($publicId)->toUrl();
     }
 }

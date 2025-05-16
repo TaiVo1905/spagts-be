@@ -9,6 +9,7 @@ use App\Services\V1\Contracts\ServiceInterface;
 use App\Repositories\Api\V1\UserRepository;
 use App\Services\Api\V1\UserService;
 use App\Models\User;
+use App\Services\Clouds\CloudinaryService;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -36,7 +37,8 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Services\Api\V1\UserService::class,
             function ($app) {
                 return new \App\Services\Api\V1\UserService(
-                    $app->make(\App\Repositories\Api\V1\UserRepository::class)
+                    $app->make(\App\Repositories\Api\V1\UserRepository::class),
+                    $app->make(CloudinaryService::class)
                 );
             }
         );
