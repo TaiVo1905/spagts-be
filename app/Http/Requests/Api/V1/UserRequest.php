@@ -15,7 +15,7 @@ class UserRequest extends FormRequest
 {
     $rules = [
         'name' => ['sometimes', 'string', 'max:255'],
-        'imageUrl' => ['sometimes', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+        'image_url' => ['sometimes', 'file', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:5120'],
         'email' => ['sometimes', 'email', 'max:255'],
         'current_password' => ['sometimes', 'string', 'min:8'],
         'password' => ['sometimes', 'string', 'min:8', 'confirmed'],
@@ -34,11 +34,11 @@ class UserRequest extends FormRequest
 
 protected function prepareForValidation()
 {
-    if ($this->hasFile('imageUrl')) {
+    if ($this->hasFile('image_url')) {
         $this->merge([
-            'image_url' => $this->file('imageUrl')
+            'image_url' => $this->file('image_url')
         ]);
     }
 }
-
 }
+

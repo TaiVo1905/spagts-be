@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use App\Http\Resources\Api\V1\UserResource;
+
 // use App\Http\Traits\ApiResponse;
 
 class AuthController extends Controller
@@ -28,7 +30,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'user' => $user,
+            'user' => new UserResource($user),
             'token' => $user->createToken('auth_token')->plainTextToken
         ]);
     }
@@ -42,6 +44,6 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        return response()->json(new UserResource($request->user()));
     }
 }
