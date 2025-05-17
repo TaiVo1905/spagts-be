@@ -58,6 +58,4 @@ class BaseController extends Controller
         $this->service->delete($item);
         return $this->successResponse(new $this->resource($item), 'Deleted successfully', 204);
     }
-    
-    
 }

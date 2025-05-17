@@ -11,7 +11,7 @@ use App\Http\Filters\Api\V1\CertificateFilter;
 
 class CertificateController extends BaseController
 {
-    public function __construct(CertificateService $service, CertificateRequest $request,)
+    public function __construct(CertificateService $service, CertificateRequest $request)
     {
         parent::__construct($service, CertificateResources::class, $request, CertificateFilter::class);
     }
