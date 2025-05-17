@@ -21,11 +21,11 @@ return new class extends Migration
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
-        Schema::create('class_names', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 100)->unique();
-            $table->timestamps();
-        });
+        // Schema::create('class_names', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('name', 100)->unique();
+        //         $table->timestamps();
+        // });
     }
 
     /**
