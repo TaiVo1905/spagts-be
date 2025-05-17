@@ -5,37 +5,77 @@ namespace App\Services\Api\V1;
 use App\Services\Api\BaseService;
 use App\Repositories\Api\V1\UserRepository;
 use App\Services\Clouds\CloudinaryService;
+use Exception;
+use Illuminate\Support\Facades\Hash;
 
 class UserService extends BaseService
 {
-    public function __construct(UserRepository $repository)
-    {
+    protected $cloudService;
+
+    public function __construct(
+        UserRepository $repository,
+        CloudinaryService $cloudService
+    ) {
         $this->repository = $repository;
+        $this->cloudService = $cloudService;
     }
 
     public function create(array $data)
     {
-        $data['password'] = bcrypt($data['password']);
+        $data['password'] = Hash::make($data['password']);
+        
+        if (isset($data['image_url'])) {
+            $data = $this->handleImageUpload($data);
+        }
+        
         return $this->repository->create($data);
     }
 
     public function update($user, array $data)
     {
         if (isset($data['password'])) {
-            $data['password'] = bcrypt($data['password']);
+            $this->validateCurrentPassword($user, $data);
+            $data['password'] = Hash::make($data['password']);
         }
-        // if(isset($data['image_url'])) {
-        //     $data['image_key'] = CloudinaryService::uploadImage($data['image_url'])->getPublicId();
-        // }
+
+        if (isset($data['image_url'])) {
+            $data = $this->handleImageUpload($data, $user->image_key);
+        }
+
         return $this->repository->update($user, $data);
     }
 
-    public function delete($user)
+    protected function handleImageUpload(array $data, ?string $oldPublicId = null)
     {
-        // $cloudinaryService = new CloudinaryService();
-        // if($user->image_key) $cloudinaryService->deleteImage($user->image_key);
-        return $this->repository->delete($user);
+        try {
+            if (!isset($data['image_url']) || !($data['image_url'] instanceof \Illuminate\Http\UploadedFile)) {
+                return $data;
+            }
+
+            if ($oldPublicId) {
+                $this->cloudService->deleteImage($oldPublicId);
+            }
+
+            $uploadResult = $this->cloudService->uploadImage(
+                $data['image_url']->getRealPath(),
+                'user_avatars',
+                ['width' => 200, 'height' => 200, 'crop' => 'fill']
+            );
+
+            $data['image_url'] = $uploadResult['secure_url'];
+            $data['image_key'] = $uploadResult['public_id'];
+
+            return $data;
+        } catch (\Exception $e) {
+            throw new Exception("Failed to process image upload: " . $e->getMessage());
+        }
     }
 
-    
+    protected function validateCurrentPassword($user, array $data)
+    {
+        if (!isset($data['current_password']) || 
+            !Hash::check($data['current_password'], $user->password)) {
+            throw new \InvalidArgumentException('Current password is invalid');
+        }
+    }
 }

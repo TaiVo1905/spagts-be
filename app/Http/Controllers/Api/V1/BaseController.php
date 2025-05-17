@@ -29,7 +29,8 @@ class BaseController extends Controller
     public function index()
     {
         $items = $this->service->list($this->filter ?? null);
-        return $this->successResponse($this->resource::collection($items));
+        $resource = $this->resource::collection($items);
+        return $this->successResponse($resource->response()->getData(true)['data'], $resource->response()->getData(true)['links'], $resource->response()->getData(true)['meta']);
     }
 
     public function store()
@@ -57,6 +58,4 @@ class BaseController extends Controller
         $this->service->delete($item);
         return $this->successResponse(new $this->resource($item), 'Deleted successfully', 204);
     }
-    
-    
 }

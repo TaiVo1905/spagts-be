@@ -1,13 +1,12 @@
 <?php
-
 namespace App\Repositories\Api\V1;
 
-use App\Models\Classes; 
+use App\Models\Timetable;
 use App\Repositories\BaseRepository;
 
-class ClassRepository extends BaseRepository
+class TimetableRepository extends BaseRepository
 {
-    public function __construct(Classes $model)
+    public function __construct(Timetable $model)
     {
         parent::__construct($model);
     }

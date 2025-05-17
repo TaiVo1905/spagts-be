@@ -2,12 +2,12 @@
 
 namespace App\Repositories\Api\V1;
 
-use App\Models\Classes; 
+use App\Models\Certificate;
 use App\Repositories\BaseRepository;
 
-class ClassRepository extends BaseRepository
+class CertificateRepository extends BaseRepository
 {
-    public function __construct(Classes $model)
+    public function __construct(Certificate $model)
     {
         parent::__construct($model);
     }
