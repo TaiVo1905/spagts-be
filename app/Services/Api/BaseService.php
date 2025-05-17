@@ -7,6 +7,7 @@ use App\Services\Api\Contracts\ServiceInterface;
 class BaseService implements ServiceInterface
 {
     protected $repository;
+    protected $cloudService;
 
     public function list($filter)
     {
