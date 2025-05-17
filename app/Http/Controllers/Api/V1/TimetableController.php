@@ -12,6 +12,6 @@ class TimetableController extends BaseController
         TimetableService $service,
         TimetableRequest $request,
     ) {
-        parent::__construct($service, TimetableResource::class, $request, $filter = null);
+        parent::__construct($service, TimetableResource::class, $request, TimetableFilter::class);
     }
 }

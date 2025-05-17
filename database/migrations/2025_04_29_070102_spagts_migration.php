@@ -212,7 +212,8 @@ return new class extends Migration
             $table->text('description');
             $table->foreignId('student_id')->constrained('users');
 
-    }
+    });
+}
 
     public function down(): void
     {

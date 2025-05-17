@@ -11,4 +11,20 @@ class Certificate extends Model
 
     protected $table = 'certificates';
 
+    protected $fillable = [
+        'image_key',
+        'module',
+        'date',
+        'description',
+        'student_id'
+    ];
+
+    protected $casts = [
+        'date' => 'date'
+    ];
+
+    public function student()
+    {
+        return $this->belongsTo(User::class, 'student_id');
+    }
 }

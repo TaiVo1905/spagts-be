@@ -15,7 +15,7 @@ class CertificateRequest extends FormRequest
     {
         $rules = [
             'imageUrl' => ['sometimes', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-            'module' => ['sometimes', 'email', 'max:50'],
+            'module' => ['sometimes', 'string', 'max:50'],
             'date' => ['sometimes', 'date'],
             'description' => ['sometimes', 'string'],
         ];

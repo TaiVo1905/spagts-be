@@ -14,6 +14,6 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/users/import', [UserImportController::class, 'import']);
     Route::get('/users/template', [UserImportController::class, 'downloadTemplate']);
     Route::apiResource('classes', ClassController::class);
-    Route::apiResource('/v1/timetables', \App\Http\Controllers\Api\V1\TimetableController::class);
+    Route::apiResource('/timetables', \App\Http\Controllers\Api\V1\TimetableController::class);
     Route::apiResource('/achievements', CertificateController::class);
 });
