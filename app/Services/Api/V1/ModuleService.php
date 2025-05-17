@@ -2,8 +2,14 @@
 
 namespace App\Services\Api\V1;
 
+<<<<<<< HEAD
+use App\Services\Api\BaseService;
+use App\Repositories\Api\V1\ModuleRepository;
+use App\Services\Clouds\CloudinaryService;
+=======
 use App\Repositories\Api\V1\ModuleRepository;
 use App\Services\Api\BaseService;
+>>>>>>> dev
 
 class ModuleService extends BaseService
 {
@@ -12,6 +18,10 @@ class ModuleService extends BaseService
         $this->repository = $repository;
     }
 
+<<<<<<< HEAD
+
+}
+=======
     public function all($studentId = null)
     {
         return $this->repository->all(null, $studentId);
@@ -37,3 +47,4 @@ class ModuleService extends BaseService
         return $this->repository->delete($model);
     }
 }
+>>>>>>> dev

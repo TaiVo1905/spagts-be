@@ -2,9 +2,14 @@
 
 namespace App\Repositories\Api\V1;
 
+<<<<<<< HEAD
+use App\Models\Module;
+use App\Repositories\BaseRepository;
+=======
 use App\Repositories\BaseRepository;
 use App\Models\Module;
 use Illuminate\Support\Facades\DB;
+>>>>>>> dev
 
 class ModuleRepository extends BaseRepository
 {
@@ -13,6 +18,9 @@ class ModuleRepository extends BaseRepository
         parent::__construct($model);
     }
 
+<<<<<<< HEAD
+
+=======
     public function all($filter = null, $studentId = null)
     {
         $query = $this->model->query();
@@ -51,4 +59,5 @@ class ModuleRepository extends BaseRepository
 
         return $query->findOrFail($id);
     }
+>>>>>>> dev
 }
