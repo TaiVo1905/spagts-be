@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Http\Filters\Api;
+
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Filters\Api\BaseFilter;
+
+
+class ModuleFilter extends BaseFilter
+{
+    public function apply()
+    {
+        $this->whereLike('name', $this->request->name);
+        $this->sort();
+    }
+}
