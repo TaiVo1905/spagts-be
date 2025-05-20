@@ -3,7 +3,7 @@
 namespace App\Http\Filters\Api;
 
 use Illuminate\Database\Eloquent\Builder;
-use App\Http\Filters\Api\BaseFilter;
+use App\Http\Filters\BaseFilter;
 
 
 class ModuleFilter extends BaseFilter

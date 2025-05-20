@@ -31,6 +31,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
     //student
     Route::apiResource('classes', ClassController::class);
     Route::apiResource('semesterGoals', SemesterGoalController::class);
+    Route::apiResource('achievements', CertificateController::class);
     Route::apiResource('modules', ModuleController::class);
     Route::apiResource('timetables', TimetableController::class);
     Route::apiResource('self-study-plans', SelfStudyPlanController::class);

@@ -2,7 +2,7 @@
 
 namespace App\Http\Filters\Api;
 
-use App\Http\Filters\Api\BaseFilter;
+use App\Http\Filters\BaseFilter;
 
 class CertificateFilter extends BaseFilter
 {

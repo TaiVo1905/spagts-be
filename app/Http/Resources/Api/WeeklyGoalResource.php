@@ -10,11 +10,11 @@ class WeeklyGoalResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'startDate' => $this->start_date,
-            'endDate' => $this->end_date,
-            'goalContent' => $this->goal_content,
-            'isCompleted' => $this->is_completed,
-            'studentId' => $this->student_id,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
+            'goal_content' => $this->goal_content,
+            'is_completed' => $this->is_completed,
+            'student_id' => $this->student_id,
         ];
     }
 }

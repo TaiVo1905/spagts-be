@@ -13,19 +13,19 @@ class WeeklyGoalRequest extends FormRequest
 
     public function rules()
 {
-    if ($this->isMethod('get')) {
+    if ($this->isMethod('post')) {
         return [
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date',
-            'goal_content' => 'nullable|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'goal_content' => 'required|string',
         ];
     }
 
     return [
-        'start_date' => 'required|date',
-        'end_date' => 'required|date',
-        'goal_content' => 'required|string',
-        'student_id' => 'required|numeric'
+        'start_date' => 'sometimes|date',
+        'end_date' => 'sometimes|date',
+        'goal_content' => 'sometimes|string',
+        'student_id' => 'sometimes|numeric'
     ];
 }
 

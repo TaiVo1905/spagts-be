@@ -2,7 +2,7 @@
 
 namespace App\Http\Filters\Api;
 
-use App\Http\Filters\Api\BaseFilter;
+use App\Http\Filters\BaseFilter;
 
 class SelfStudyPlanFilter extends BaseFilter
 {
@@ -18,7 +18,7 @@ class SelfStudyPlanFilter extends BaseFilter
             $this->whereDate('date', '<=', $endDate);
         }
 
-        $this->whereEqual('student_id', $this->request->get('student_id'));
+        $this->whereEqual('student_id', $this->request->get('studentId'));
         $this->whereEqual('semester', $this->request->get('semester'));
 
         $this->whereEqual('module_id', $this->request->get('module_id'));
