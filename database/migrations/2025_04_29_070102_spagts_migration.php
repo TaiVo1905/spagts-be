@@ -94,8 +94,9 @@ return new class extends Migration
             $table->timestamps();
         });
         //Our schema
-        Schema::create('class_names', function (Blueprint $table) {
+        Schema::create('classes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('teacher_id')->constrained('users');
             $table->string('name', 50);
             $table->timestamps();
         });
@@ -109,14 +110,14 @@ return new class extends Migration
 
         Schema::create('class_module', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('class_id')->constrained('class_names');
+            $table->foreignId('class_id')->constrained('classes');
             $table->foreignId('module_id')->constrained('modules');
             $table->timestamps();
         });
 
         Schema::create('user_class', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('class_id')->constrained('class_names');
+            $table->foreignId('class_id')->constrained('classes');
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
@@ -127,7 +128,8 @@ return new class extends Migration
             $table->date('end_date');
             $table->text('goal_content');
             $table->boolean('is_completed')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('student_id')->nullable()->constrained('users');
+            $table->enum('semester', [1, 2, 3, 4, 5, 6]);
             $table->timestamps();
         });
 
@@ -145,6 +147,7 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->foreignId('module_id')->nullable()->constrained('modules');
             $table->foreignId('student_id')->nullable()->constrained('users');
+            $table->enum('semester', [1, 2, 3, 4, 5, 6]);
             $table->timestamps();
         });
 
@@ -158,6 +161,7 @@ return new class extends Migration
             $table->boolean('problem_solved')->nullable();
             $table->foreignId('module_id')->nullable()->constrained('modules');
             $table->foreignId('student_id')->nullable()->constrained('users');
+            $table->enum('semester', [1, 2, 3, 4, 5, 6]);
             $table->timestamps();
         });
 
@@ -211,8 +215,9 @@ return new class extends Migration
             $table->date('date');
             $table->text('description');
             $table->foreignId('student_id')->constrained('users');
-
-    });
+            $table->enum('semester', [1, 2, 3, 4, 5, 6]);
+            $table->timestamps();
+        });
 }
 
     public function down(): void
@@ -227,7 +232,6 @@ return new class extends Migration
         Schema::dropIfExists('user_class');
         Schema::dropIfExists('class_module');
         Schema::dropIfExists('modules');
-        Schema::dropIfExists('class_names');
         Schema::dropIfExists('users');
         Schema::dropIfExists('certificates');
         Schema::dropIfExists('failed_jobs');
@@ -238,6 +242,6 @@ return new class extends Migration
         Schema::dropIfExists('sessions');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('personal_access_tokens');
-
+        Schema::dropIfExists('classes');
     }
 };
