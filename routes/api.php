@@ -20,8 +20,8 @@ use \App\Http\Controllers\Api\TimetableController;
 
 Route::post('/v1/login', [AuthController::class, 'login'])->name('login');
 
-Route::apiResource('users', UserController::class);
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
+    Route::apiResource('users', UserController::class);
     //auth
     Route::get('/user', [AuthController::class, 'user']);
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -30,6 +30,10 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
 
     //student
     Route::apiResource('classes', ClassController::class);
+    Route::get('classes/{id}/users', [ClassController::class, 'getClassMembers']);
+    Route::put('classes/{id}/users', [ClassController::class, 'updateClassMembers']);
+    Route::delete('classes/{id}/users', [ClassController::class, 'deleteClassUsers']);
+    Route::delete('classes/{id}/modules', [ClassController::class, 'deleteClassModules']);
     Route::apiResource('semesterGoals', SemesterGoalController::class);
     Route::apiResource('achievements', CertificateController::class);
     Route::apiResource('modules', ModuleController::class);
