@@ -31,4 +31,22 @@ class User extends Authenticatable
     public function class() {
         return $this->hasOne(Classes::class, 'teacher_id');
     }
+
+    public function classUsers() {
+    return $this->hasMany(UserClass::class);
+    }
+
+    public function classes() {
+        return $this->belongsToMany(Classes::class, 'user_class','user_id', 'class_id');
+    }
+
+    public function modules()
+    {
+        return Module::whereHas('classes', function ($query) {
+            $query->whereHas('users', function ($q) {
+                $q->where('users.id', $this->id);
+            });
+        });
+    }
+
 }

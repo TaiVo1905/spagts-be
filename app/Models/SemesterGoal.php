@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Module;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class SemesterGoal extends Model
 {
@@ -28,5 +29,10 @@ class SemesterGoal extends Model
     public function student()
     {
         return $this->belongsTo(User::class, 'student_id');
+    }
+    
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\SelfStudyPlanController;
 use App\Http\Controllers\Api\InClassController;
 use App\Http\Controllers\Api\WeeklyGoalController;
 use \App\Http\Controllers\Api\TimetableController;
+use \App\Http\Controllers\Api\CommentController;
+use \App\Http\Controllers\Api\ActivityLogController;
 // use PhpParser\Builder\Class_;
 
 
@@ -24,6 +26,8 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
     Route::apiResource('users', UserController::class);
     //auth
     Route::get('/user', [AuthController::class, 'user']);
+    Route::get('users/{id}/classes', [UserController::class, 'getUserClasses']);
+    Route::get('modules/{moduleId}/users', [ModuleController::class, 'getModuleUsers']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/users/import', [UserImportController::class, 'import']);
     Route::get('/users/template', [UserImportController::class, 'downloadTemplate']);
@@ -35,12 +39,22 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
     Route::delete('classes/{id}/users', [ClassController::class, 'deleteClassUsers']);
     Route::delete('classes/{id}/modules', [ClassController::class, 'deleteClassModules']);
     Route::apiResource('semesterGoals', SemesterGoalController::class);
+    Route::apiResource('users.semesterGoals', SemesterGoalController::class);
     Route::apiResource('achievements', CertificateController::class);
     Route::apiResource('modules', ModuleController::class);
+    Route::get('userModules', [ModuleController::class, 'getUserModules']);
+
+    // Add the route for linking modules to classes here
+    Route::post('modules/{moduleId}/classes', [ModuleController::class, 'addClassesToModule']);
+
     Route::apiResource('timetables', TimetableController::class);
     Route::apiResource('self-study-plans', SelfStudyPlanController::class);
     Route::apiResource('in-class-plan', InClassController::class);
     Route::apiResource('weekly-goals', WeeklyGoalController::class);
+    Route::apiResource('comments', CommentController::class)->only(['index', 'store', 'destroy']);
+    Route::post('comments/{comment}/replies', [CommentController::class, 'addReply']);
+    Route::delete('replies/{reply}', [CommentController::class, 'deleteReply']);
+    Route::apiResource('activityLog', ActivityLogController::class);
 });
 
 

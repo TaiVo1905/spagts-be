@@ -10,6 +10,11 @@ use App\Http\Requests\Api\ClassRequest;
 use App\Http\Filters\Api\ClassFilter;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Models\Classes;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 
 class ClassController extends BaseController
@@ -22,7 +27,7 @@ class ClassController extends BaseController
     public function getClassMembers($id)
     {
         try {
-            $class = ClassModel::findOrFail($id);
+            $class = Classes::findOrFail($id);
             
             $students = $class->users()
                 ->where('roles', 'Student')

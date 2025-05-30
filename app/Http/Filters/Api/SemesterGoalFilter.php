@@ -8,7 +8,7 @@ class SemesterGoalFilter extends BaseFilter
 {
     public function apply()
     {
-        $this->whereEqual('student_id', $this->request->user);
+        $this->whereEqual('student_id', $this->request->studentId);
         $this->whereEqual('semester', $this->request->get('semester'));
     }
 }

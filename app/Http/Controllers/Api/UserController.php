@@ -11,6 +11,8 @@ use App\Http\Filters\Api\UserFilter;
 use Illuminate\Http\Request;
 use App\Services\Clouds\CloudinaryService;
 use App\Http\Controllers\BaseController;
+use App\Models\User;
+
 
 class UserController extends BaseController
 {
@@ -20,5 +22,21 @@ class UserController extends BaseController
     {
         parent::__construct($service, UserResource::class, $request, UserFilter::class);
         $this->cloudinaryService = $cloudinaryService;
+    }
+
+    public function getUserClasses($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            
+            $classes = $user->classes()
+                ->get();
+                
+
+            return $this->successResponse($classes);
+        } catch (\Exception $e) {
+                        return $this->errorResponse( $e->getMessage(), 500);
+
+        }
     }
 }

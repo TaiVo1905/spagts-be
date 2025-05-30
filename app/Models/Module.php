@@ -12,4 +12,19 @@ class Module extends Model
     {
         return $this->belongsTo(User::class, 'teacher_id');
     }
+    public function classes()
+    {
+        return $this->belongsToMany(Classes::class, 'class_module', 'module_id', 'class_id');
+    }
+
+    public function classModule()
+    {
+        return $this->belongsToMany(classModule::class, 'class_id');
+
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'class_module', 'module_id', 'class_id');
+    }
 }

@@ -16,19 +16,8 @@ class InClassPlanResource extends JsonResource
             'difficulties' => $this->difficulties,
             'plan_to_improve' => $this->plan_to_improve,
             'problem_solved' => $this->problem_solved,
-            'module' => $this->whenLoaded('module', function () {
-                return [
-                    'id' => $this->module->id,
-                    'name' => $this->module->name,
-                ];
-            }),
-            'student' => $this->whenLoaded('student', function () {
-                return [
-                    'id' => $this->student->id,
-                    'name' => $this->student->name,
-                    'email' => $this->student->email,
-                ];
-            }),
+            'module' => $this->module,
+            'student' => $this->student,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

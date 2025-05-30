@@ -19,6 +19,8 @@ class InClassPlanFilter extends BaseFilter
         }
 
         $this->whereEqual('student_id', $this->request->get('studentId'));
+        $this->whereEqual('semester', $this->request->get('semester'));
+
 
         $this->whereEqual('module_id', $this->request->get('module_id'));
 
