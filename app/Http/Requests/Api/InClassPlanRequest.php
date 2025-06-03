@@ -15,18 +15,18 @@ class InClassPlanRequest extends FormRequest
     {
         $rules = [
             'date' => ['sometimes', 'date'],
-            'lesson_learned' => ['sometimes', 'string'],
+            'lesson_learned' => ['sometimes'],
             'self_assessment' => ['sometimes', 'integer'],
-            'difficulties' => ['sometimes', 'string'],
-            'plan_to_improve' => ['sometimes', 'string'],
+            'difficulties' => ['sometimes'],
+            'plan_to_improve' => ['sometimes'],
             'problem_solved' => ['sometimes', 'boolean'],
             'module_id' => ['sometimes', 'exists:modules,id'],
             'student_id' => ['sometimes', 'exists:users,id'],
         ];
 
        if ($this->isMethod('post')) {
-    $rules['module_id'] = ['required', 'exists:modules,id'];
-    $rules['student_id'] = ['required', 'exists:users,id'];
+            $rules['module_id'] = ['required', 'exists:modules,id'];
+            $rules['student_id'] = ['required', 'exists:users,id'];
 }
         return $rules;
     }

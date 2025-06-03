@@ -21,6 +21,9 @@ class BaseRepository implements RepositoryInterface
             $filter = new $filter($query, request());
             $filter->apply();
         }
+        if($filter->request->get('perPage')) {
+            return $query->paginate($filter->request->get('perPage'));
+        }
         return $query->paginate(10);
     }
 

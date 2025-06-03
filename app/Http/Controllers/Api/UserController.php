@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Services\Clouds\CloudinaryService;
 use App\Http\Controllers\BaseController;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 
 class UserController extends BaseController
@@ -37,6 +38,73 @@ class UserController extends BaseController
         } catch (\Exception $e) {
                         return $this->errorResponse( $e->getMessage(), 500);
 
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+            
+            
+            DB::table('certificates')->where('student_id', $id)->delete();
+            
+            
+            DB::table('timetables')->where('user_id', $id)->delete();
+            
+            
+            DB::table('semester_goals')->where('student_id', $id)->delete();
+            
+            
+            DB::table('in_class_plan')->where('student_id', $id)->delete();
+            
+            
+            DB::table('self_study_plan')->where('student_id', $id)->delete();
+            
+            
+            DB::table('weekly_goals')->where('student_id', $id)->delete();
+            
+            
+            DB::table('user_class')->where('user_id', $id)->delete();
+            
+            
+            $user = User::find($id);
+            if ($user && $user->roles === 'Teacher') {
+                
+                $moduleIds = DB::table('modules')->where('teacher_id', $id)->pluck('id');
+                
+                
+                DB::table('class_module')->whereIn('module_id', $moduleIds)->delete();
+                
+                
+                DB::table('modules')->where('teacher_id', $id)->delete();
+                
+                
+                DB::table('classes')->where('teacher_id', $id)->delete();
+            }
+        
+            
+            DB::table('personal_access_tokens')->where('tokenable_id', $id)
+                ->where('tokenable_type', 'App\\Models\\User')
+                ->delete();
+                
+            
+            DB::table('sessions')->where('user_id', $id)->delete();
+            
+            
+            $user->delete();
+            
+            DB::commit();
+            
+            return response()->json([
+                'message' => 'User deleted successfully'
+            ]);
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Error deleting user: ' . $e->getMessage()
+            ], 500);
         }
     }
 }

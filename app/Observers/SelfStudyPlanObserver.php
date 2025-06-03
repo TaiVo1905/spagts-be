@@ -11,7 +11,7 @@ class SelfStudyPlanObserver
     /**
      * Handle the SelfStudyPlan "created" event.
      */
-    public function created(SelfStudyPlan $selfStudyPlan): void
+    public function created(SelfStudyPlan $plan): void
     {
         ActivityLog::create([
         'user_id' => auth()->id(),
@@ -40,7 +40,7 @@ class SelfStudyPlanObserver
     /**
      * Handle the SelfStudyPlan "deleted" event.
      */
-    public function deleted(SelfStudyPlan $selfStudyPlan): void
+    public function deleted(SelfStudyPlan $plan): void
     {
         ActivityLog::create([
         'user_id' => auth()->id(),
@@ -54,7 +54,7 @@ class SelfStudyPlanObserver
     /**
      * Handle the SelfStudyPlan "restored" event.
      */
-    public function restored(SelfStudyPlan $selfStudyPlan): void
+    public function restored(SelfStudyPlan $plan): void
     {
         //
     }
@@ -62,7 +62,7 @@ class SelfStudyPlanObserver
     /**
      * Handle the SelfStudyPlan "force deleted" event.
      */
-    public function forceDeleted(SelfStudyPlan $selfStudyPlan): void
+    public function forceDeleted(SelfStudyPlan $plan): void
     {
         //
     }

@@ -12,9 +12,7 @@ use App\Http\Controllers\Api\SelfStudyPlanController;
 use App\Http\Controllers\Api\InClassController;
 use App\Http\Controllers\Api\WeeklyGoalController;
 use \App\Http\Controllers\Api\TimetableController;
-use \App\Http\Controllers\Api\CommentController;
 use \App\Http\Controllers\Api\ActivityLogController;
-// use PhpParser\Builder\Class_;
 
 
 
@@ -30,7 +28,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
     Route::get('modules/{moduleId}/users', [ModuleController::class, 'getModuleUsers']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/users/import', [UserImportController::class, 'import']);
-    Route::get('/users/template', [UserImportController::class, 'downloadTemplate']);
+    Route::get('/users/import/template', [UserImportController::class, 'downloadTemplate']);
 
     //student
     Route::apiResource('classes', ClassController::class);
@@ -46,14 +44,12 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
 
     // Add the route for linking modules to classes here
     Route::post('modules/{moduleId}/classes', [ModuleController::class, 'addClassesToModule']);
+    Route::get('modules/{moduleId}/classes', [ModuleController::class, 'getClassesFromModule']);
 
     Route::apiResource('timetables', TimetableController::class);
     Route::apiResource('self-study-plans', SelfStudyPlanController::class);
     Route::apiResource('in-class-plan', InClassController::class);
     Route::apiResource('weekly-goals', WeeklyGoalController::class);
-    Route::apiResource('comments', CommentController::class)->only(['index', 'store', 'destroy']);
-    Route::post('comments/{comment}/replies', [CommentController::class, 'addReply']);
-    Route::delete('replies/{reply}', [CommentController::class, 'deleteReply']);
     Route::apiResource('activityLog', ActivityLogController::class);
 });
 

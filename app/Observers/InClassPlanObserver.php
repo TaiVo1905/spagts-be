@@ -24,7 +24,7 @@ class InClassPlanObserver
     /**
      * Handle the InClassPlan "updated" event.
      */
-    public function updated(InClassPlan $plan)
+    public function updated(InClass $plan)
     {
         ActivityLog::create([
             'user_id' => auth()->id(),
@@ -39,7 +39,7 @@ class InClassPlanObserver
     /**
      * Handle the InClassPlan "deleted" event.
      */
-    public function deleted(InClassPlan $plan): void
+    public function deleted(InClass $plan): void
     {
         ActivityLog::create([
             'user_id' => auth()->id(),
@@ -53,7 +53,7 @@ class InClassPlanObserver
     /**
      * Handle the InClassPlan "restored" event.
      */
-    public function restored(InClassPlan $plan): void
+    public function restored(InClass $plan): void
     {
         //
     }
@@ -61,7 +61,7 @@ class InClassPlanObserver
     /**
      * Handle the InClassPlan "force deleted" event.
      */
-    public function forceDeleted(InClassPlan $plan): void
+    public function forceDeleted(InClass $plan): void
     {
         //
     }

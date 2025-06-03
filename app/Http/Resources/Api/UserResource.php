@@ -24,7 +24,7 @@ class UserResource extends JsonResource
             'imageUrl' => $this->image_key ? $this->cloudinaryService->getUrl($this->image_key) : null,
             'email' => $this->email,
             'roles' => $this->roles,
-            'created_at' => $this->created_at->toDateTimeString(),
+            'createdAt' => $this->created_at->toDateTimeString(),
         ];
     }
 }
