@@ -17,8 +17,14 @@ class BaseRepository implements RepositoryInterface
     public function all($filter)
     {
         $query = $this->model->query();
-        $filter?->apply();
-        return $query->paginate(request('limit', 10));
+        if ($filter) {
+            $filter = new $filter($query, request());
+            $filter->apply();
+        }
+        if($filter->request->get('perPage')) {
+            return $query->paginate($filter->request->get('perPage'));
+        }
+        return $query->paginate(10);
     }
 
     public function find($id)
