@@ -23,8 +23,8 @@ class ModuleRequest extends FormRequest
         ];
 
         if ($method === 'POST') {
-            $rules['name'] = 'required|string|max:50';
-            $rules['teacher_id'] = 'required|exists:users,id';
+            $rules['name'] = 'string|max:50';
+            $rules['teacher_id'] = 'exists:users,id';
         } else {
             foreach ($rules as $key => $value) {
                 $rules[$key] = 'sometimes|' . $value;

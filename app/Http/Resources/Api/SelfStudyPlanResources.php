@@ -20,19 +20,8 @@ class SelfStudyPlanResources extends JsonResource
             'evaluation' => $this->evaluation,
             'reinforcing_techniques' => $this->reinforcing_techniques,
             'note' => $this->note,
-            'module' => $this->whenLoaded('module', function () {
-                return [
-                    'id' => $this->module->id,
-                    'name' => $this->module->name,
-                ];
-            }),
-            'student' => $this->whenLoaded('student', function () {
-                return [
-                    'id' => $this->student->id,
-                    'name' => $this->student->name,
-                    'email' => $this->student->email,
-                ];
-            }),
+            'module' => $this->module,
+            'student' => $this->student,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

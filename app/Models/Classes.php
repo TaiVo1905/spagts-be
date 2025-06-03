@@ -25,4 +25,5 @@ class Classes extends Model
     {
         return $this->belongsToMany(User::class, 'user_class', 'class_id', 'user_id');
     }
+
 }

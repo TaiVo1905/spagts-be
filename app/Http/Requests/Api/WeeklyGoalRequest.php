@@ -18,6 +18,8 @@ class WeeklyGoalRequest extends FormRequest
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'goal_content' => 'required|string',
+            'is_completed' => 'required|boolean',
+            'student_id' => 'sometimes|numeric'
         ];
     }
 

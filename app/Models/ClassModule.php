@@ -13,11 +13,26 @@ class ClassModule extends Model
 
     public function class()
     {
-        return $this->belongsTo(ClassName::class, 'class_id');
+        return $this->belongsTo(Classes::class, 'class_id');
     }
 
     public function module()
     {
         return $this->belongsTo(Module::class, 'module_id');
+    }
+
+    public function modules()
+    {
+        return $this->belongsToMany(Module::class, 'class_module');
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'user_class');
     }
 }
